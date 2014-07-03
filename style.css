@@ -1,0 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#signature {
+    background-color: #cdc;
+    background-image: url("grid.png");
+}
