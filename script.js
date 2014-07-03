@@ -33,6 +33,20 @@ function normalizeCanvas(canvas) {
     canvasCtx.putImageData(pixels, 0, 0);
 }
 
+// returns a scaled version of the canvas
+function scaleCanvas(canv, scale) {
+    var newCanvas = document.createElement("canvas");
+    newCanvas.width = canv.width * scale;
+    newCanvas.height = canv.height * scale;
+    
+    var ctx = newCanvas.getContext("2d");
+    
+    ctx.scale(scale, scale);
+    ctx.drawImage(canv, 0, 0);
+    
+    return newCanvas;
+}
+
 // returns a duplicate of the canvas
 function duplicateCanvas(canvas) {
     var newCanvas = document.createElement("canvas");
@@ -113,12 +127,19 @@ function btnClear(e) {
 function btnFinish(e) {
     e.preventDefault();
     
-    var toBeSaved = duplicateCanvas(canvas);
+    // first we shrink the canvas
+    var toBeSaved = scaleCanvas(canvas, 0.75);
     
-    normalizeCanvas(toBeSaved);
+    // then we force all pixels to black or transparent
+    //normalizeCanvas(toBeSaved);
     
+    // then we generate our URL
     var image = exportAsImage(toBeSaved);
     
+    // for debugging purposes
+    alert(image.length);
+    
+    // also for debugging purposes
     window.open(image);
 }
 
