@@ -17,6 +17,7 @@ function exportAsImage(canvas) {
 // this eliminates grey pixels by forcing them to pure black
 // TODO: improve by trimming pixels that are lighter than a certain value
 function normalizeCanvas(canvas) {
+    var canvasCtx = canvas.getContext("2d");
     var pixels = canvasCtx.getImageData(0, 0, canvas.width, canvas.height);
     
     for(var i = 0; i < pixels.width * pixels.height * 4; i+=4)
@@ -29,11 +30,23 @@ function normalizeCanvas(canvas) {
         }
     }
     
-    canvasCtx.putImageData(pixels, 0, 0); // possible improvement: return a new canvas?
+    canvasCtx.putImageData(pixels, 0, 0);
+}
+
+// returns a duplicate of the canvas
+function duplicateCanvas(canvas) {
+    var newCanvas = document.createElement("canvas");
+    newCanvas.width = canvas.width;
+    newCanvas.height = canvas.height;
+    
+    var newCtx = newCanvas.getContext("2d");
+    
+    newCtx.drawImage(canvas, 0, 0);
+    return newCanvas;
+    
 }
 
 // This just kind of scribles on the canvas for a bit
-// TODO: refactor the line drawing into an external method
 function addRandomSignature() {
     var a, b;
     a = randomCoordinate();
@@ -100,9 +113,11 @@ function btnClear(e) {
 function btnFinish(e) {
     e.preventDefault();
     
-    normalizeCanvas(canvas);
+    var toBeSaved = duplicateCanvas(canvas);
     
-    var image = exportAsImage(canvas);
+    normalizeCanvas(toBeSaved);
+    
+    var image = exportAsImage(toBeSaved);
     
     window.open(image);
 }
