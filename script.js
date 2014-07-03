@@ -41,15 +41,23 @@ function addRandomSignature() {
     for(var i = 0; i < 100; i++) {
         b = randomCoordinate();
         
-        canvasCtx.beginPath();       // yes, this is kind of slow and dumb
-        canvasCtx.moveTo(a.x, a.y);  // but, I am simulating a bunch of touches
-        canvasCtx.lineTo(b.x, b.y);  // so I will use the same algorithm
-        canvasCtx.lineWidth = 3;
-        canvasCtx.stroke();
+        // yes, we could optimize this by drawing all the lines at once
+        // but, that's not the point
+        
+        drawLine(canvasCtx, a, b);
         
         a = b;
         
     }
+}
+
+// draws a line on the canvas
+function drawLine(canvasCtx, a, b) {
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(a.x, a.y);
+    canvasCtx.lineTo(b.x, b.y);
+    canvasCtx.lineWidth = 3;
+    canvasCtx.stroke();
 }
 
 /* UI helper functions */
@@ -104,16 +112,19 @@ function btnFinish(e) {
     window.open(normal.gif);
 }
 
+
+function btnRandom(e) {
+    canvas.width = canvas.width;
+    
+    addRandomSignature();
+}
+
 function canvasMouseMove(e) {
     if(!mouseDown) return;
     
     var coords = getMousePos(canvas, e);
     
-    canvasCtx.beginPath();
-    canvasCtx.moveTo(lastCoord.x, lastCoord.y);
-    canvasCtx.lineTo(coords.x, coords.y);
-    canvasCtx.lineWidth = 3;
-    canvasCtx.stroke();
+    drawLine(canvasCtx, lastCoord, coords);
     
     lastCoord = coords;
 }
@@ -130,15 +141,12 @@ function bodyMouseUp(e) {
 
 function canvasTouchMove(e) {
     e.preventDefault();
+    
     if(!mouseDown) return;
     
     var coords = getTouchPos(canvas, e);
     
-    canvasCtx.beginPath();
-    canvasCtx.moveTo(lastCoord.x, lastCoord.y);
-    canvasCtx.lineTo(coords.x, coords.y);
-    canvasCtx.lineWidth = 3;
-    canvasCtx.stroke();
+    drawLine(canvasCtx, lastCoord, coords);
     
     lastCoord = coords;
 }
@@ -151,12 +159,6 @@ function canvasTouchDown(e) {
 function bodyTouchUp(e) {
     mouseDown = false;
     lastCoord = null;
-}
-
-function btnRandom(e) {
-    canvas.width = canvas.width;
-    
-    addRandomSignature();
 }
 
 
