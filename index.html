@@ -1,17 +1,25 @@
 <!doctype html>
+<html>
 <head>
     <title>Signature</title>
     <link rel="stylesheet" href="style.css"/>
+    
+    <!-- prevent scaling on touch devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     
 </head>
 <body>
-    <canvas id="signature" width="1024" height="384"></canvas><br/>
+    <!-- the canvas can be any size, the code is size agnostic -->
+    <canvas id="signature" width="1024" height="384"></canvas>
+    
+    <br/>
+    
     <button id="clear">Clear</button>
     <button id="finish">Finish</button>
     <button id="random">Random</button>
+    
     <br/>
-    <pre id="debug"></pre>
+    
     <script src="jquery.min.js"></script>
     <script src="script.js"></script>
 </body>

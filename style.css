@@ -1,8 +1,10 @@
+/* clear out margins and what not */
 * {
     margin: 0;
     padding: 0;
 }
 
+/* make the signature pad a bit fancier */
 #signature {
     background-color: #cdc;
     background-image: url("grid.png");
