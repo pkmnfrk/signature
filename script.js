@@ -100,16 +100,11 @@ function btnClear(e) {
 function btnFinish(e) {
     e.preventDefault();
     
-    var denormal = exportAsImage(canvas);
-    
     normalizeCanvas(canvas);
     
-    var normal = exportAsImage(canvas);
+    var image = exportAsImage(canvas);
     
-    window.open(denormal.png);
-    window.open(denormal.gif);
-    window.open(normal.png);
-    window.open(normal.gif);
+    window.open(image);
 }
 
 
